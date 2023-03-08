@@ -41,11 +41,13 @@ public class AgendaService {
         Optional<User> optionalUser = userService.buscarPorId(agenda.getUser().getId());
         if (optionalUser.isEmpty()){
             throw new BusinessException("Usuario não encontrado!");
+        } else {
+            agenda.setUser(optionalUser.get());
+            agenda.setDate(LocalDate.now());
+            agenda.setStatus(Status.PENDING);
+            repository.save(agenda);
         }
-        agenda.setUser(optionalUser.get());
-        agenda.setDate(LocalDate.now());
-        agenda.setStatus(Status.PENDING);
-        repository.save(agenda);
+
 
     }
     public void pagarAgenda(Long id){
